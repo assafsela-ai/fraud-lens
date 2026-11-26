@@ -44,6 +44,15 @@ Open [the local analyzer](http://127.0.0.1:8787/analyze.html). The server listen
 4. Open the receipt and select one of the three transfers to the receiving account.
 5. Open the sources from the timeline, edit the summary, and select **Print or save as PDF**. Choose **Save as PDF** in your browser’s print dialog.
 
+## Codex and Claude Code skill
+
+Open this repository in either agent to use the Fraud Lens skill for screenshot reviews, the demo, or changes to the app.
+
+- **Codex** runs `$fraud-lens` from [.agents/skills/fraud-lens/SKILL.md](./.agents/skills/fraud-lens/SKILL.md).
+- **Claude Code** runs `/fraud-lens` from [.claude/skills/fraud-lens/SKILL.md](./.claude/skills/fraud-lens/SKILL.md).
+
+Both entry points use the same instructions.
+
 ## How it works
 
 - `case-data.js` contains the demo messages, invoice, transfers, and prepared chat findings.
