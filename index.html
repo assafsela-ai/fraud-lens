@@ -1,25 +1,25 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="דמו בעברית לחקירת הצעת עבודה חשודה. חמישה שלבים, תיק אחד ונתונים מדומים.">
+  <meta name="description" content="Investigate a suspicious job offer in five interactive steps using a fictional case.">
   <meta name="theme-color" content="#f7f6fc">
-  <title>Fraud Lens · הדמו</title>
+  <title>Fraud Lens · Interactive demo</title>
   <link rel="icon" href="./assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="./styles.css">
   <script src="./case-data.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#stage-title">דילוג לחקירה</a>
+  <a class="skip" href="#stage-title">Skip to the investigation</a>
   <header class="top">
     <div class="wrap masthead">
-      <a class="brand" href="./index.html" aria-label="Fraud Lens" lang="en">
+      <a class="brand" href="./index.html">
         <span class="brand-mark" aria-hidden="true"><i></i></span>
         <span>Fraud Lens</span>
       </a>
-      <span class="demo-label"><span class="dot" aria-hidden="true"></span>דמו עם נתונים מדומים</span>
+      <span class="demo-label"><span class="dot" aria-hidden="true"></span>Demo with fictional data</span>
     </div>
   </header>
 
@@ -27,10 +27,10 @@
     <section class="hero">
       <div class="wrap hero-inner">
         <div class="hero-copy">
-          <div class="hero-label"><span class="mini-line" aria-hidden="true"></span>תיק פתוח <bdi>FL-001</bdi></div>
-          <h1>הודעה אחת.<br><span>תיק הונאה שלם.</span></h1>
-          <p>עקבו אחר הצעת עבודה חשודה, מחילופי ההודעות ועד לדוח עם כל הראיות.</p>
-          <button id="start" class="button primary" type="button">פתחו את התיק</button>
+          <div class="hero-label"><span class="mini-line" aria-hidden="true"></span>Case <bdi>FL-001</bdi></div>
+          <h1>One message.<br><span>A fraud case.</span></h1>
+          <p>Follow a suspicious job offer from the first message to a report you can share.</p>
+          <button id="start" class="button primary" type="button">Open the case</button>
         </div>
         <div class="hero-art" aria-hidden="true">
           <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
@@ -44,34 +44,34 @@
     </section>
 
     <div class="wrap investigation" id="investigation">
-      <nav aria-label="שלבי החקירה">
+      <nav aria-label="Investigation steps">
         <ol class="steps" id="steps"></ol>
       </nav>
-      <noscript>יש להפעיל JavaScript בדפדפן כדי לפתוח את הדמו.</noscript>
+      <noscript>Enable JavaScript in your browser to run the demo.</noscript>
       <section class="workspace" aria-labelledby="stage-title">
         <div class="stage-header">
           <div>
             <p class="eyebrow" id="stage-count"></p>
-            <h2 id="stage-title" tabindex="-1">הודעה חשודה</h2>
+            <h2 id="stage-title" tabindex="-1">Suspicious message</h2>
             <p id="stage-intro" class="stage-intro"></p>
           </div>
-          <span class="case-id" dir="ltr">FL / 001</span>
+          <span class="case-id">FL / 001</span>
         </div>
         <div class="stage-grid" id="stage-grid">
           <div id="evidence" class="evidence"></div>
-          <aside id="inspector" class="inspector" aria-label="ממצאי השלב"></aside>
+          <aside id="inspector" class="inspector" aria-label="Findings for this step"></aside>
         </div>
         <div class="stage-footer">
           <button id="next" class="button primary" type="button"></button>
-          <button id="previous" class="button secondary" type="button">לשלב הקודם</button>
+          <button id="previous" class="button secondary" type="button">Previous step</button>
         </div>
       </section>
     </div>
   </main>
 
   <footer class="wrap page-footer">
-    <span class="footer-brand" lang="en" dir="ltr">Fraud Lens · Open source</span>
-    <span>הדמו רץ בדפדפן. ממצאי ניתוח השיחה הוכנו מראש.</span>
+    <span class="footer-brand">Fraud Lens · Open source</span>
+    <span>This demo runs in your browser and uses prepared chat findings.</span>
   </footer>
   <article id="print-report" class="print-report"></article>
 </body>

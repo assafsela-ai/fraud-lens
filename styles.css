@@ -36,7 +36,8 @@ bdi { unicode-bidi: isolate; }
 .skip {
   position: fixed;
   z-index: 4;
-  inset: .65rem .75rem auto auto;
+  inset-block-start: .65rem;
+  inset-inline-start: .75rem;
   clip-path: inset(50%);
   padding: .6rem 1rem;
   border-radius: .5rem;
@@ -55,7 +56,7 @@ bdi { unicode-bidi: isolate; }
 .dot { width: .47rem; height: .47rem; border-radius: 50%; background: currentColor; flex: none; }
 .demo-label .dot { color: var(--accent); }
 
-.hero { isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 19% 55%, #ede6ff 0%, transparent 57%), var(--canvas); }
+.hero { isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 81% 55%, #ede6ff 0%, transparent 57%), var(--canvas); }
 .hero-inner { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; min-height: 21.4rem; gap: 2rem; }
 .hero-copy { padding-block: 2rem; animation: enter .45s ease both; }
 .hero-label { display: flex; align-items: center; gap: .5rem; color: var(--accent-dark); font-weight: 700; font-size: .87rem; }
@@ -134,12 +135,12 @@ bdi { unicode-bidi: isolate; }
 .chat-top strong, .chat-top small { display: block; line-height: 1.3; }
 .chat-top small { font-size: .76rem; color: var(--muted); }
 .chat-body { display: grid; gap: .37rem; padding: .72rem; }
-.message { position: relative; max-inline-size: 93%; justify-self: start; padding: .42rem .65rem .2rem; border: 1px solid #eae4f0; border-radius: .65rem .2rem .65rem .65rem; background: #f7f5fa; font-size: .96rem; }
-.message.sent { justify-self: end; border-radius: .2rem .65rem .65rem .65rem; background: #eee9fb; }
+.message { position: relative; max-inline-size: 93%; justify-self: start; padding: .42rem .65rem .2rem; border: 1px solid #eae4f0; border-radius: .65rem; border-start-start-radius: .2rem; background: #f7f5fa; font-size: .96rem; }
+.message.sent { justify-self: end; border-start-start-radius: .65rem; border-start-end-radius: .2rem; background: #eee9fb; }
 .message[data-mark]:has(.mark-number) { margin-inline-start: .52rem; }
 .message time { display: block; text-align: end; color: var(--muted); font-size: .72rem; }
 .message-domain { display: block; font-size: .84rem; color: var(--accent-dark); overflow-wrap: anywhere; }
-.mark-number { position: absolute; inset: -.35rem -.55rem auto auto; display: grid; place-items: center; min-width: 1.14rem; aspect-ratio: 1; padding: .08rem; border-radius: 50%; background: var(--accent); color: white; font-size: .68rem; font-weight: 800; }
+.mark-number { position: absolute; inset-block-start: -.35rem; inset-inline-start: -.55rem; display: grid; place-items: center; min-width: 1.14rem; aspect-ratio: 1; padding: .08rem; border-radius: 50%; background: var(--accent); color: white; font-size: .68rem; font-weight: 800; }
 .message:has(.mark-number) { border-color: #c8b3f0; }
 .message.highlighted { background: #eee5ff; border-color: #7952c7; box-shadow: inset 0 0 0 1px #7952c7; }
 .markers-off .message { border-color: #eae4f0; box-shadow: none; background: #f7f5fa; }
@@ -202,6 +203,7 @@ figcaption { margin-block-start: .9rem; color: var(--muted); font-size: .86rem; 
 .timeline time { color: var(--muted); direction: ltr; font-variant-numeric: tabular-nums; }
 .timeline strong, .timeline button { display: block; }
 .timeline strong { font-weight: 700; }
+.timeline button { text-align: start; }
 .inspector label { display: block; font-size: .9rem; color: #e6dcef; margin-block-end: .25rem; }
 .inspector textarea { display: block; width: 100%; min-height: 7.5rem; resize: vertical; padding: .55rem .65rem; border: 1px solid #8e73ba; border-radius: .5rem; color: var(--ink); background: #fcfaff; }
 .print-button { width: 100%; margin-block-start: .75rem; }

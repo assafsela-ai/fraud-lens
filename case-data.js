@@ -1,80 +1,80 @@
 const demoCase = {
   id: 'FL-001',
-  company: 'אופק סטודיו',
-  contact: 'נועה | צוות הגיוס',
+  company: 'Ofek Studio',
+  contact: 'Noya | Recruiting team',
   officialDomain: 'ofek-studio.example',
-  date: '18.11.2026',
+  date: 'Nov 18, 2026',
   invoice: {
     number: 'EQ-1042',
-    purpose: 'ערכת ציוד לעבודה מרחוק',
-    original: { time: '10:15', supplier: 'אופק ציוד משרדי', amount: 480, account: 'DEMO-2041' },
-    revised: { time: '10:27', supplier: 'אופק ציוד משרדי', amount: 480, account: 'DEMO-8176' }
+    purpose: 'Remote work equipment kit',
+    original: { time: '10:15', supplier: 'Ofek Office Supplies', amount: 480, account: 'DEMO-2041' },
+    revised: { time: '10:27', supplier: 'Ofek Office Supplies', amount: 480, account: 'DEMO-8176' }
   },
   messages: [
-    { id: 'intro', body: 'היי! ראינו את קורות החיים שלך. יש לנו משרה מהבית באופק סטודיו.', time: '09:12' },
-    { id: 'link', body: 'פרטי המשרה מופיעים בעמוד הבא', domain: 'ofek-careers.example', time: '09:13' },
-    { id: 'fee', body: 'כדי לשמור את המקום שלך, צריך להעביר 480 ₪ עוד היום.', time: '09:14' },
-    { id: 'reply', body: 'על מה התשלום? כבר התקבלתי למשרה?', time: '10:02', sent: true },
-    { id: 'equipment', body: 'זה עבור ערכת ציוד. נפתח את קליטת העובד אחרי שתשלם.', time: '10:04' },
-    { id: 'invoice', body: 'החשבונית מצורפת. עדכנתי אותה עכשיו עם הפרטים לתשלום.', time: '10:27' }
+    { id: 'intro', body: 'Hi! We saw your resume. We have a remote role open at Ofek Studio.', time: '09:12' },
+    { id: 'link', body: 'You can find the job details here.', domain: 'ofek-careers.example', time: '09:13' },
+    { id: 'fee', body: 'To hold your spot, please transfer ₪480 by the end of today.', time: '09:14' },
+    { id: 'reply', body: 'What is the payment for? Have I already been hired?', time: '10:02', sent: true },
+    { id: 'equipment', body: 'It covers your equipment kit. We can start onboarding once you pay.', time: '10:04' },
+    { id: 'invoice', body: 'Here is the updated invoice with the payment details.', time: '10:27' }
   ],
   transfers: [
-    { id: 'TX-031', label: 'תיק קודם א׳', date: '16.11.2026', time: '11:10', amount: 420, account: 'DEMO-8176' },
-    { id: 'TX-058', label: 'התיק הנוכחי', date: '18.11.2026', time: '10:42', amount: 480, account: 'DEMO-8176', current: true },
-    { id: 'TX-076', label: 'תיק קודם ב׳', date: '17.11.2026', time: '16:25', amount: 520, account: 'DEMO-8176' },
-    { id: 'TX-091', label: 'עסקה נוספת', date: '18.11.2026', time: '12:20', amount: 310, account: 'DEMO-4512' }
+    { id: 'TX-031', label: 'Earlier case A', date: 'Nov 16, 2026', time: '11:10', amount: 420, account: 'DEMO-8176' },
+    { id: 'TX-058', label: 'Current case', date: 'Nov 18, 2026', time: '10:42', amount: 480, account: 'DEMO-8176', current: true },
+    { id: 'TX-076', label: 'Earlier case B', date: 'Nov 17, 2026', time: '16:25', amount: 520, account: 'DEMO-8176' },
+    { id: 'TX-091', label: 'Another transfer', date: 'Nov 18, 2026', time: '12:20', amount: 310, account: 'DEMO-4512' }
   ]
 };
 
 const stages = [
   {
-    label: 'הודעה חשודה', source: 'צילום השיחה', caption: 'צילום 01 · פתיחת השיחה',
-    intro: 'המועמד מקבל הודעה ממגייסת. בחרו ממצא כדי לראות אותו בשיחה.',
-    next: 'המשך להצעת העבודה'
+    label: 'Message', title: 'Suspicious message', source: 'Chat screenshot', caption: 'Image 01 · First messages',
+    intro: 'A recruiter contacts the applicant. Select a finding to highlight it in the chat.',
+    next: 'Review the job offer'
   },
   {
-    label: 'הצעת עבודה', source: 'המשך השיחה', caption: 'צילום 02 · המשך השיחה',
-    intro: 'המועמד שואל על התשלום. המשך השיחה מסביר מה נדרש ממנו כדי להתחיל.',
-    next: 'השוואת חשבוניות'
+    label: 'Job offer', source: 'Follow-up messages', caption: 'Image 02 · Follow-up',
+    intro: 'The applicant asks about the payment. The recruiter explains what they need to do before starting.',
+    next: 'Compare invoices'
   },
   {
-    label: 'חשבוניות', title: 'שתי גרסאות לחשבונית', source: 'מסמכי הספק',
-    caption: 'מסמך 03 · השוואת גרסאות',
-    intro: 'שתי גרסאות התקבלו עבור אותה הזמנה. בחרו שדה כדי להשוות בין המסמכים.',
-    next: 'מעקב אחר התשלום'
+    label: 'Invoices', title: 'Two versions of one invoice', source: 'Supplier documents',
+    caption: 'Document 03 · Version comparison',
+    intro: 'The applicant received two invoices for the same order. Select a field to compare the values.',
+    next: 'Trace the payment'
   },
   {
-    label: 'מעקב תשלום', title: 'לאן הגיע הכסף?', source: 'תרשים העברות',
-    caption: 'מסמך 04 · עסקאות מדומות',
-    intro: 'פתחו את קבלת הדמו כדי לקשר את התשלום לחשבון שמופיע בחשבונית.',
-    next: 'פתיחת הדוח'
+    label: 'Payment', title: 'Where did the money go?', source: 'Transfer graph',
+    caption: 'Document 04 · Fictional transfers',
+    intro: 'Open the demo receipt to connect the payment to the account on the invoice.',
+    next: 'Open the report'
   },
   {
-    label: 'דוח תיק', title: 'תיק מוכן לבדיקה', source: 'ציר הזמן של התיק',
-    caption: 'דוח 05 · סיכום ראיות',
-    intro: 'הראיות מסודרות לפי זמן. אפשר לפתוח כל מקור, לערוך את הסיכום ולשמור אותו כ־PDF.'
+    label: 'Report', title: 'Case ready for review', source: 'Case timeline',
+    caption: 'Report 05 · Evidence summary',
+    intro: 'Review the evidence in order, open its sources, and edit or save the summary as a PDF.'
   }
 ];
 
 const chatFindings = [
   [
     {
-      id: 'link', title: 'כתובת אתר שונה',
-      detail: 'הכתובת בהודעה שונה מהכתובת הרשמית שמופיעה בנתוני הדמו. כדאי לפתוח את אתר החברה ישירות ולחפש בו את המשרה.'
+      id: 'link', title: 'Different website address',
+      detail: 'The address in the message differs from the company’s official address in the demo. Visit the company site directly and look for the role there.'
     },
     {
-      id: 'fee', title: 'בקשת תשלום דחופה',
-      detail: 'כבר בהודעה הראשונה מבקשים 480 ₪ ומגבילים את הזמן לתשלום. כדאי לעצור ולאמת את הבקשה מול החברה.'
+      id: 'fee', title: 'Urgent payment request',
+      detail: 'The recruiter asks for ₪480 on the same day. Pause and verify the request through the company’s official contact details.'
     }
   ],
   [
     {
-      id: 'equipment', title: 'תשלום כתנאי לקליטה',
-      detail: 'המגייסת אומרת שהקליטה תיפתח אחרי תשלום על ציוד. זה השלב שבו מתבררת מטרת התשלום.'
+      id: 'equipment', title: 'Payment before onboarding',
+      detail: 'The recruiter says payment for equipment is required before onboarding can begin.'
     },
     {
-      id: 'invoice', title: 'התקבלה חשבונית מעודכנת',
-      detail: 'נשלחה גרסה חדשה של החשבונית. השלב הבא משווה אותה לגרסה המקורית.'
+      id: 'invoice', title: 'Revised invoice',
+      detail: 'The recruiter sent a revised invoice. The next step compares it with the original.'
     }
   ]
 ];
