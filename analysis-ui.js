@@ -1,4 +1,4 @@
-import { ANALYSIS_MODELS, DEFAULT_ANALYSIS_MODEL, AnalysisError, analyzeScreenshot } from './analysis/openai.mjs';
+import { ANALYSIS_MODELS, DEFAULT_ANALYSIS_MODEL, AnalysisError, analyzeScreenshot } from './analysis/openai.mjs?v=luna';
 
 const byId = id => document.getElementById(id);
 const form = byId('analysis-form');

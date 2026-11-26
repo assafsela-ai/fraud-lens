@@ -1,6 +1,7 @@
 const RESPONSES_URL = 'https://api.openai.com/v1/responses';
 
 export const ANALYSIS_MODELS = Object.freeze([
+  Object.freeze({ id: 'gpt-6-luna', label: 'GPT-6 Luna' }),
   Object.freeze({ id: 'gpt-5.4-mini', label: 'GPT-5.4 mini' }),
   Object.freeze({ id: 'gpt-6.1-terra', label: 'GPT-6.1 Terra' }),
   Object.freeze({ id: 'gpt-6.2-sol', label: 'GPT-6.2 Sol' })
