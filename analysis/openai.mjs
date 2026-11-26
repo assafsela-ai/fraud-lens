@@ -166,7 +166,8 @@ export async function analyzeScreenshot({ apiKey, model = DEFAULT_ANALYSIS_MODEL
     });
   } catch (error) {
     if (signal?.aborted) throw error;
-    throw upstreamError(502);
+    throw new AnalysisError(502, 'openai_connection_failed',
+      'Could not read a response from OpenAI. Check your API key and connection, then try again.');
   }
 
   const payload = await response.json().catch(() => null);

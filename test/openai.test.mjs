@@ -65,3 +65,12 @@ test('omits raw provider errors and handles model refusals', async () => {
     { code: 'invalid_analysis' }
   );
 });
+
+test('provides a safe recovery message when the browser cannot read the response', async () => {
+  await assert.rejects(
+    analyzeScreenshot(sample, () => { throw new TypeError('Private network error details'); }),
+    error => error.code === 'openai_connection_failed'
+      && error.message.includes('Check your API key and connection')
+      && !error.message.includes('Private network error details')
+  );
+});
