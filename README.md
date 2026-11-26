@@ -6,6 +6,8 @@ An interactive fraud investigation demo. Follow one fictional case from a suspic
 
 ## Run the demo
 
+**[Open the live demo](https://assafsela-ai.github.io/fraud-lens/)**
+
 Open [index.html](./index.html) in your browser and select **Open the case**. The demo runs locally without an account, file uploads, or an API key.
 
 You can also serve the repository over local HTTP.
