@@ -1,0 +1,10 @@
+{
+  "name": "fraud-lens",
+  "version": "1.1.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node analysis/server.mjs",
+    "test": "node --test"
+  }
+}

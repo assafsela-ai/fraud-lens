@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Review a suspicious message screenshot with OpenAI and see the evidence behind each finding.">
+  <meta name="theme-color" content="#f7f6fc">
+  <title>Analyze a screenshot · Fraud Lens</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./analysis.css">
+  <script type="module" src="./analysis-ui.js"></script>
+</head>
+<body>
+  <a class="skip" href="#analysis-title">Skip to analysis</a>
+  <header class="top">
+    <div class="wrap masthead">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark" aria-hidden="true"><i></i></span>
+        <span>Fraud Lens</span>
+      </a>
+      <a class="text-button" href="./index.html#investigation">Open the example case</a>
+    </div>
+  </header>
+
+  <main class="wrap analysis-main">
+    <div class="analysis-intro">
+      <p class="eyebrow">Screenshot review · OpenAI</p>
+      <h1 id="analysis-title" tabindex="-1">Analyze a suspicious message.</h1>
+      <p>Upload a screenshot to see warning signs, the evidence behind them, and steps you can take to verify the message.</p>
+    </div>
+
+    <p id="analysis-loading" role="status" hidden>Connecting to the analysis server…</p>
+    <section id="analysis-setup" class="analysis-panel setup-panel">
+      <h2>Run the analyzer locally</h2>
+      <p>The live analyzer uses a local server to send your screenshot to OpenAI. Run these commands with Node.js 22 or later.</p>
+      <pre tabindex="0"><code>git clone https://github.com/assafsela-ai/fraud-lens.git
+cd fraud-lens
+npm start</code></pre>
+      <div class="hero-actions">
+        <a class="button primary" href="http://127.0.0.1:8787/analyze.html">Open local analyzer</a>
+        <a class="button secondary" href="./index.html#investigation">Try the example case</a>
+      </div>
+    </section>
+    <noscript>Enable JavaScript to use the screenshot analyzer. The source and setup instructions are on <a href="https://github.com/assafsela-ai/fraud-lens">GitHub</a>.</noscript>
+
+    <div class="analysis-grid" id="analysis-workspace" hidden>
+      <form id="analysis-form" class="analysis-panel" method="post" action="./api/analyze" aria-labelledby="form-title">
+        <h2 id="form-title">Set up the review</h2>
+        <div class="analysis-field">
+          <label for="screenshot">Screenshot</label>
+          <input id="screenshot" name="screenshot" type="file" required accept="image/png,image/jpeg,image/webp" aria-describedby="image-help">
+          <p class="analysis-help" id="image-help">PNG, JPEG, or WebP. Up to 10 MB. Crop out private details you don’t need reviewed.</p>
+        </div>
+
+        <div class="analysis-field">
+          <label for="api-key">OpenAI API key</label>
+          <input id="api-key" type="password" required maxlength="512" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="key-help">
+          <p class="analysis-help" id="key-help">Fraud Lens clears this field when you submit and does not save the key.</p>
+        </div>
+
+        <div class="analysis-field">
+          <label for="model">OpenAI model</label>
+          <select id="model" name="model" aria-describedby="model-help" required></select>
+          <p class="analysis-help" id="model-help">Available models depend on your OpenAI project. API usage is billed there.</p>
+        </div>
+
+        <p class="analysis-disclosure">When you select Analyze screenshot, your screenshot is sent to OpenAI.</p>
+        <div class="hero-actions analysis-actions">
+          <button class="button primary" id="analyze-button" type="submit">Analyze screenshot</button>
+          <button class="button secondary" id="cancel-button" type="button" hidden>Cancel</button>
+        </div>
+        <p id="analysis-status" class="analysis-help" role="status"></p>
+        <p id="analysis-error" class="analysis-error" role="alert"></p>
+      </form>
+
+      <section class="analysis-panel preview-panel" aria-labelledby="preview-title">
+        <h2 id="preview-title">Screenshot preview</h2>
+        <p id="preview-empty">Your screenshot will appear here before you submit it.</p>
+        <img id="analysis-preview" alt="Preview of the selected message screenshot" hidden>
+      </section>
+    </div>
+
+    <section id="analysis-result" class="analysis-panel result-panel" aria-labelledby="result-title" hidden>
+      <div class="result-header">
+        <h2 id="result-title" tabindex="-1">Analysis results</h2>
+        <span id="risk-level" class="risk-level"></span>
+      </div>
+      <p id="analysis-summary"></p>
+      <section id="findings-section">
+        <h3>Findings</h3>
+        <ul id="analysis-findings" class="analysis-findings"></ul>
+      </section>
+      <div class="result-details">
+        <section id="next-section">
+          <h3>What to do next</h3>
+          <ul id="analysis-next"></ul>
+        </section>
+        <section id="limitations-section">
+          <h3>What the screenshot can’t tell us</h3>
+          <ul id="analysis-limitations"></ul>
+        </section>
+      </div>
+      <p class="analysis-help">AI findings can be incomplete. Verify important details through a trusted channel.</p>
+    </section>
+  </main>
+
+  <footer class="wrap page-footer">
+    <span class="footer-brand">Fraud Lens · Open source</span>
+    <a class="text-button" href="https://github.com/assafsela-ai/fraud-lens">View the source on GitHub</a>
+  </footer>
+</body>
+</html>
