@@ -158,6 +158,9 @@ export async function analyzeScreenshot({ apiKey, model = DEFAULT_ANALYSIS_MODEL
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      credentials: 'omit',
+      cache: 'no-store',
+      referrerPolicy: 'no-referrer',
       redirect: 'error',
       signal
     });

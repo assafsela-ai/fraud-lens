@@ -20,7 +20,13 @@ Open `http://127.0.0.1:8000`. To deploy with GitHub Pages, use the root folder o
 
 ## Analyze your own screenshot
 
-Run the local analyzer with **Node.js 22 or later**. It uses Node’s built-in APIs and needs no package installation.
+**[Open the public screenshot analyzer](https://assafsela-ai.github.io/fraud-lens/analyze.html).** No Fraud Lens account or local server is needed. Choose a PNG, JPEG, or WebP screenshot (up to 10 MB), enter your OpenAI API key, and select a model. The result includes a risk assessment, supporting evidence, next steps, and what the screenshot could not establish.
+
+The public analyzer sends your screenshot and key directly from your browser to OpenAI’s Responses API. Fraud Lens clears the key field on submission and does not save keys, images, or results. Use a restricted OpenAI project key and crop any details you do not need reviewed. Model access and usage charges depend on your OpenAI project. See [OpenAI API data controls](https://developers.openai.com/api/docs/guides/your-data) for how OpenAI handles submitted data.
+
+### Optional local server
+
+You can route OpenAI requests through the included local server with **Node.js 22 or later**. It uses Node’s built-in APIs and needs no package installation.
 
 ```sh
 git clone https://github.com/assafsela-ai/fraud-lens.git
@@ -28,11 +34,7 @@ cd fraud-lens
 npm start
 ```
 
-Open [the local analyzer](http://127.0.0.1:8787/analyze.html), choose a PNG, JPEG, or WebP screenshot (up to 10 MB), enter your OpenAI API key, and select a model. The result includes a risk assessment, supporting evidence, next steps, and what the screenshot could not establish. Access and costs depend on your OpenAI project.
-
-The browser sends the key and image to the local Fraud Lens server for that request. The server forwards them directly to OpenAI’s Responses API. Fraud Lens clears the key field on submission and does not log or save keys, images, or results. The image may contain personal details, so crop any material you do not need reviewed. OpenAI handles submitted data under its [API data controls](https://developers.openai.com/api/docs/guides/your-data).
-
-GitHub Pages hosts the signup-free fictional case and the analyzer setup page. Live OpenAI analysis runs through the local server. The server listens on `127.0.0.1`; set `FRAUD_LENS_PORT` if the default port is occupied.
+Open [the local analyzer](http://127.0.0.1:8787/analyze.html). The server listens on `127.0.0.1`. Set `FRAUD_LENS_PORT` if the default port is occupied.
 
 ## Demo walkthrough
 

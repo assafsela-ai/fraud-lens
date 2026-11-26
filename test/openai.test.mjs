@@ -23,6 +23,9 @@ test('sends the selected vision model and strict schema only to OpenAI', async (
     const analysis = await analyzeScreenshot({ ...sample, model }, (url, options) => {
       assert.equal(url, 'https://api.openai.com/v1/responses');
       assert.equal(options.headers.Authorization, 'Bearer sk-test-only');
+      assert.equal(options.credentials, 'omit');
+      assert.equal(options.cache, 'no-store');
+      assert.equal(options.referrerPolicy, 'no-referrer');
       assert.equal(options.redirect, 'error');
       const body = JSON.parse(options.body);
       assert.equal(body.model, model);

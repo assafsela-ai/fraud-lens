@@ -20,6 +20,7 @@ const STATIC_FILES = new Map([
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/case-data.js', ['case-data.js', 'text/javascript; charset=utf-8']],
   ['/analysis-ui.js', ['analysis-ui.js', 'text/javascript; charset=utf-8']],
+  ['/analysis/openai.mjs', ['analysis/openai.mjs', 'text/javascript; charset=utf-8']],
   ['/image-worker.js', ['image-worker.js', 'text/javascript; charset=utf-8']],
   ['/assets/favicon.png', ['assets/favicon.png', 'image/png']],
   ['/assets/heebo.ttf', ['assets/heebo.ttf', 'font/ttf']],
@@ -196,7 +197,13 @@ async function sendStatic(req, res, route) {
   const file = STATIC_FILES.get(route);
   if (!file) throw new RequestError(404, 'This page was not found.');
   const [path, contentType] = file;
-  const content = await readFile(new URL(path, APP_ROOT));
+  let content = await readFile(new URL(path, APP_ROOT));
+  if (route === '/analyze.html') {
+    content = content.toString('utf8').replace(
+      'name="fraud-lens-transport" content="browser"',
+      'name="fraud-lens-transport" content="local"'
+    );
+  }
   send(res, 200, contentType, content, req.method === 'HEAD');
 }
 

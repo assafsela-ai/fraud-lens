@@ -56,6 +56,11 @@ test('serves the demo and advertises model choices without authentication', asyn
   assert.equal(demo.headers.get('referrer-policy'), 'no-referrer');
   assert.equal(demo.headers.get('x-content-type-options'), 'nosniff');
   assert.equal((await fetch(url + '/analysis/server.mjs')).status, 404);
+  const analyzer = await fetch(url + '/analyze.html');
+  assert.match(await analyzer.text(), /name="fraud-lens-transport" content="local"/);
+  const sharedModule = await fetch(url + '/analysis/openai.mjs');
+  assert.equal(sharedModule.status, 200);
+  assert.match(sharedModule.headers.get('content-type'), /text\/javascript/);
   const choices = await fetch(url + '/api/models');
   assert.equal(choices.headers.get('cache-control'), 'no-store');
   assert.deepEqual(await choices.json(), { models: ANALYSIS_MODELS, defaultModel: DEFAULT_ANALYSIS_MODEL });

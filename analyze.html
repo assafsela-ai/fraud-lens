@@ -2,9 +2,12 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.openai.com/v1/responses; img-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Review a suspicious message screenshot with OpenAI and see the evidence behind each finding.">
   <meta name="theme-color" content="#f7f6fc">
+  <meta name="fraud-lens-transport" content="browser">
+  <meta name="referrer" content="no-referrer">
   <title>Analyze a screenshot · Fraud Lens</title>
   <link rel="icon" href="./assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="./styles.css">
@@ -30,19 +33,9 @@
       <p>Upload a screenshot to see warning signs, the evidence behind them, and steps you can take to verify the message.</p>
     </div>
 
-    <p id="analysis-loading" role="status" hidden>Connecting to the analysis server…</p>
-    <section id="analysis-setup" class="analysis-panel setup-panel">
-      <h2>Run the analyzer locally</h2>
-      <p>The live analyzer uses a local server to send your screenshot to OpenAI. Run these commands with Node.js 22 or later.</p>
-      <pre tabindex="0"><code>git clone https://github.com/assafsela-ai/fraud-lens.git
-cd fraud-lens
-npm start</code></pre>
-      <div class="hero-actions">
-        <a class="button primary" href="http://127.0.0.1:8787/analyze.html">Open local analyzer</a>
-        <a class="button secondary" href="./index.html#investigation">Try the example case</a>
-      </div>
-    </section>
-    <noscript>Enable JavaScript to use the screenshot analyzer. The source and setup instructions are on <a href="https://github.com/assafsela-ai/fraud-lens">GitHub</a>.</noscript>
+    <p id="analysis-context" class="analysis-panel">
+      <a href="https://assafsela-ai.github.io/fraud-lens/analyze.html" target="_blank" rel="noopener noreferrer">Open the public analyzer in its own tab</a> with JavaScript enabled to start a review.
+    </p>
 
     <div class="analysis-grid" id="analysis-workspace" hidden>
       <form id="analysis-form" class="analysis-panel" method="post" action="./api/analyze" aria-labelledby="form-title">
@@ -56,7 +49,7 @@ npm start</code></pre>
         <div class="analysis-field">
           <label for="api-key">OpenAI API key</label>
           <input id="api-key" type="password" required maxlength="512" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="key-help">
-          <p class="analysis-help" id="key-help">Fraud Lens clears this field when you submit and does not save the key.</p>
+          <p class="analysis-help" id="key-help">Use a restricted OpenAI project key. Fraud Lens clears this field when you submit and does not save the key.</p>
         </div>
 
         <div class="analysis-field">
@@ -65,7 +58,7 @@ npm start</code></pre>
           <p class="analysis-help" id="model-help">Available models depend on your OpenAI project. API usage is billed there.</p>
         </div>
 
-        <p class="analysis-disclosure">When you select Analyze screenshot, your screenshot is sent to OpenAI.</p>
+        <p class="analysis-disclosure" id="analysis-disclosure">Your browser sends your screenshot and API key directly to OpenAI when you submit.</p>
         <div class="hero-actions analysis-actions">
           <button class="button primary" id="analyze-button" type="submit">Analyze screenshot</button>
           <button class="button secondary" id="cancel-button" type="button" hidden>Cancel</button>

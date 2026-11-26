@@ -1,3 +1,5 @@
+import { ANALYSIS_MODELS, DEFAULT_ANALYSIS_MODEL, AnalysisError, analyzeScreenshot } from './analysis/openai.mjs';
+
 const byId = id => document.getElementById(id);
 const form = byId('analysis-form');
 const screenshot = byId('screenshot');
@@ -32,25 +34,18 @@ const requestErrors = new Map([
 ]);
 let previewUrl;
 let activeRequest;
+const throughServer = document.querySelector('meta[name="fraud-lens-transport"]')?.content === 'local';
 
-async function initialize() {
-  if (location.protocol === 'file:' || location.hostname.endsWith('.github.io')) return;
-  byId('analysis-loading').hidden = false;
-  byId('analysis-setup').hidden = true;
-  try {
-    const response = await fetch('./api/models', { cache: 'no-store', signal: AbortSignal.timeout(4000) });
-    if (!response.ok) return;
-    const { models, defaultModel } = await response.json();
-    for (const model of models) {
-      modelSelect.add(new Option(model.label, model.id, false, model.id === defaultModel));
-    }
-    if (modelSelect.options.length) byId('analysis-workspace').hidden = false;
-  } catch {
-    // Static builds and unavailable local servers use the setup view.
-  } finally {
-    byId('analysis-loading').hidden = true;
-    byId('analysis-setup').hidden = !byId('analysis-workspace').hidden;
+function initialize() {
+  if (!window.isSecureContext || window.top !== window.self) return;
+  for (const model of ANALYSIS_MODELS) {
+    modelSelect.add(new Option(model.label, model.id, false, model.id === DEFAULT_ANALYSIS_MODEL));
   }
+  if (throughServer) {
+    byId('analysis-disclosure').textContent = 'The local Fraud Lens server sends your screenshot and API key to OpenAI when you submit.';
+  }
+  byId('analysis-context').hidden = true;
+  byId('analysis-workspace').hidden = false;
 }
 
 function validateFile(file) {
@@ -154,6 +149,24 @@ function setBusy(busy) {
   cancelButton.hidden = !busy;
 }
 
+async function requestAnalysis({ apiKey, model, imageDataUrl, signal }) {
+  if (!throughServer) return analyzeScreenshot({ apiKey, model, imageDataUrl, signal });
+  const response = await fetch('./api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({ model, imageDataUrl }),
+    credentials: 'omit',
+    cache: 'no-store',
+    referrerPolicy: 'same-origin',
+    signal
+  });
+  if (!response.ok) {
+    throw new AnalysisError(response.status, 'local_request_failed',
+      requestErrors.get(response.status) ?? 'OpenAI could not complete the analysis. Try again.');
+  }
+  return response.json();
+}
+
 form.addEventListener('submit', async event => {
   event.preventDefault();
   if (activeRequest) return;
@@ -170,6 +183,8 @@ form.addEventListener('submit', async event => {
 
   keyInput.value = '';
   const controller = new AbortController();
+  const timeout = AbortSignal.timeout(90000);
+  const signal = AbortSignal.any([controller.signal, timeout]);
   activeRequest = controller;
   const model = modelSelect.value;
   const focused = document.activeElement;
@@ -179,27 +194,20 @@ form.addEventListener('submit', async event => {
   errorMessage.textContent = '';
   statusMessage.textContent = 'Preparing your screenshot…';
   try {
-    const imageDataUrl = await readImage(file, controller.signal);
+    const imageDataUrl = await readImage(file, signal);
     statusMessage.textContent = 'Waiting for OpenAI…';
-    const response = await fetch('./api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-      body: JSON.stringify({ model, imageDataUrl }),
-      signal: controller.signal
-    });
-    if (!response.ok) {
-      if (response.status === 401) keyInput.setAttribute('aria-invalid', 'true');
-      throw new Error(requestErrors.get(response.status) ?? 'OpenAI could not complete the analysis. Try again.');
-    }
-    const result = await response.json();
-    controller.signal.throwIfAborted();
+    const result = await requestAnalysis({ apiKey: key, model, imageDataUrl, signal });
+    signal.throwIfAborted();
     showResult(result);
     statusMessage.textContent = 'Analysis complete.';
   } catch (error) {
     statusMessage.textContent = controller.signal.aborted ? 'Analysis canceled.' : '';
     if (!controller.signal.aborted) {
+      if (error.status === 401) keyInput.setAttribute('aria-invalid', 'true');
       const networkError = error instanceof TypeError || error instanceof SyntaxError;
-      errorMessage.textContent = networkError ? 'Could not complete the request. Check the local server and try again.' : error.message;
+      if (timeout.aborted) errorMessage.textContent = requestErrors.get(504);
+      else if (networkError) errorMessage.textContent = 'Could not complete the request. Check your connection and try again.';
+      else errorMessage.textContent = requestErrors.get(error.status) ?? error.message;
     }
   } finally {
     activeRequest = undefined;

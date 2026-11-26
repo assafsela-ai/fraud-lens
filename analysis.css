@@ -29,9 +29,6 @@
 .preview-panel { background: #f1edf9; }
 .preview-panel p { color: var(--muted); }
 .preview-panel img { display: block; inline-size: auto; max-inline-size: 100%; max-block-size: 36rem; margin-inline: auto; object-fit: contain; border-radius: .6rem; }
-.setup-panel { max-inline-size: 43rem; }
-.setup-panel p { color: var(--muted); }
-.setup-panel pre { max-inline-size: 100%; overflow-x: auto; padding: .8rem; border-radius: .5rem; color: var(--ink); background: var(--wash); }
 .result-panel { margin-block-start: 1rem; overflow-wrap: anywhere; }
 .result-header { display: flex; flex-wrap: wrap; gap: .45rem 1rem; align-items: center; margin-block-end: .45rem; }
 .result-header h2 { margin: 0; }
